@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <script src="./src/index.js"></script> -->
+
+    <script>
+      // 1,收集依赖,生成依赖树，将依赖代码填写
+      // 2,ES6转ES5
+      // 3,替换require和exports方法
+      // bundle.js
+      (function (list) {
+        function require(file) {
+          let exports = {};
+          // 立即执行函数
+          (function (exports, code) {
+            eval(code);
+          })(exports, list[file]);
+          return exports;
+        }
+
+        require('index.js');
+      })({
+        'add.js': 'exports.default = function (a, b) {return a + b;};',
+        'index.js': `var add = require('add.js').default; console.log(add(1, 2));`,
+      });
+    </script>
+  </body>
+</html>
